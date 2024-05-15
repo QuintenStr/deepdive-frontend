@@ -1,0 +1,32 @@
+<div class="login-container">
+  <main class="form-signin w-100 m-auto">
+    <h1 class="h3 mb-3 fw-normal">
+      {{ 'registercompletewelcome' | translate }}
+    </h1>
+    <p>
+      {{ 'registercompletedescription' | translate }}
+    </p>
+    <div class="d-flex justify-content-between mb-3">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        [routerLink]="['/auth/view-application']">
+        {{ 'registercompleteviewapplication' | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="this.authService.logout()">
+        {{ 'registercompletelogoff' | translate }}
+      </button>
+    </div>
+    <button
+      type="button"
+      class="btn btn-outline-secondary w-100"
+      (click)="checkAgain()">
+      {{ 'registercompletecheckagain' | translate }}
+    </button>
+  </main>
+
+  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+</div>

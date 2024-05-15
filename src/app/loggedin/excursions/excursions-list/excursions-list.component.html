@@ -1,0 +1,104 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      {{ 'excursionslistdeletetitle' | translate }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <p>{{ 'excursionslistdeleteconfirm' | translate }}</p>
+    <p class="fw-bold text-danger">
+      {{ 'excursionslistdeletewarning' | translate }}
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="modal.dismiss('cancel click')">
+      <i class="bi bi-x-lg"></i>
+      {{ 'excursionslistdeletecancel' | translate }}
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="modal.close('Ok click')">
+      <i class="bi bi-trash3"></i>
+      {{ 'excursionslistdeletesubmit' | translate }}
+    </button>
+  </div>
+</ng-template>
+
+<div class="mb-3" style="padding: 0 !important">
+  <h2>{{ 'excursionslisttitle' | translate }}</h2>
+  <div #grid class="grid">
+    @if(excursions){ @if(excursions.length === 0){
+    <p>{{ 'excursionslistnofound' | translate }}</p>
+    }}
+
+    <div class="row g-4">
+      <div
+        class="grid-item col-sm-6 col-lg-4"
+        *ngFor="let excursion of excursions">
+        <div class="card custom-shadow">
+          <img
+            class="card-img-top"
+            [src]="baseUrl + excursion.imageName"
+            alt="Card image cap"
+            (error)="handleImageError($event)" />
+          <div class="card-body">
+            <h5 class="card-title">
+              <i class="bi bi-card-heading"></i>
+              {{ excursion.title }}
+            </h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+              <i class="bi bi-calendar"></i>
+              {{ formatDate(excursion.dateTime) }}
+            </h6>
+            <p class="card-text">
+              <i class="bi bi-card-text"></i>
+              {{ excursion.description | truncate : 256 }}
+            </p>
+            <div
+              class="d-flex flex-column flex-xxl-row justify-content-between">
+              <div class="col-12 col-xxl-auto mb-2 mb-xxl-0">
+                <button
+                  (click)="openExcursion(excursion.id)"
+                  class="btn btn-primary w-100">
+                  <i class="bi bi-info-circle"></i>
+                  {{ 'excursionslistcardmoreinfo' | translate }}
+                </button>
+              </div>
+              @if(this.authService.isUserAdmin()){
+              <div
+                class="col-12 col-xxl-auto mb-2 mb-xxl-0"
+                *ngIf="authService.isUserAdmin()">
+                <button
+                  (click)="editExcursion(excursion.id)"
+                  class="btn btn-outline-secondary w-100">
+                  <i class="bi bi-pencil-square"></i>
+                  {{ 'excursionslistcardedit' | translate }}
+                </button>
+              </div>
+              <div
+                class="col-12 col-xxl-auto mb-2 mb-xxl-0"
+                *ngIf="authService.isUserAdmin()">
+                <button
+                  (click)="open(content, excursion)"
+                  class="btn btn-outline-danger w-100">
+                  <i class="bi bi-trash3"></i>
+                  {{ 'excursionslistcarddelete' | translate }}
+                </button>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

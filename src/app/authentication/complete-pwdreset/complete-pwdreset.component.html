@@ -1,0 +1,92 @@
+<div class="login-container">
+  <main class="form-signin w-100 m-auto">
+    <form
+      [formGroup]="resetPasswordForm"
+      autocomplete="off"
+      novalidate
+      (ngSubmit)="updatePassword(resetPasswordForm.value)">
+      <img
+        class="mb-4"
+        src="assets/logo-cutout-4.png"
+        alt="image"
+        alt=""
+        class="img-fluid" />
+      <h1 class="h3 mb-3 fw-normal">{{ 'loginforgotpassword' | translate }}</h1>
+
+      <div class="form-floating">
+        <input
+          type="password"
+          class="form-control pwd1"
+          id="password"
+          placeholder=""
+          formControlName="password" />
+        <label for="password"> {{ 'loginpassword' | translate }}</label>
+        <div class="text-danger">
+          <em
+            *ngIf="
+              validateControl('password') && hasError('password', 'required')
+            ">
+            <i class="bi bi-exclamation-triangle"></i>
+            {{ 'loginpasswordrequired' | translate }}</em
+          >
+        </div>
+      </div>
+
+      <div class="form-floating formstyle">
+        <input
+          type="password"
+          class="form-control pwd2"
+          id="passwordConfirmation"
+          placeholder=""
+          formControlName="passwordConfirmation" />
+        <label for="passwordConfirmation">{{
+          'pwdresetconfirmation' | translate
+        }}</label>
+        <div class="text-danger">
+          <em
+            *ngIf="
+              validateControl('passwordConfirmation') &&
+              hasError('passwordConfirmation', 'required')
+            ">
+            <i class="bi bi-exclamation-triangle"></i>
+            {{ 'pwdresetconfirmationrequired' | translate }}</em
+          >
+          <div
+            *ngIf="resetPasswordForm.hasError('passwordConfirmationNotMatch')">
+            <i class="bi bi-exclamation-triangle"></i>
+            {{ 'pwdresetnotmatch' | translate }}
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showError">
+        @if (!!alert) {
+        <ngb-alert
+          [type]="alert.type"
+          (closed)="close()"
+          [innerHTML]="alert.message"></ngb-alert>
+        }
+      </div>
+
+      <button
+        class="btn btn-primary w-100 py-2 loginbutton"
+        type="submit"
+        [disabled]="!resetPasswordForm.valid">
+        {{ 'loginsubmit' | translate }}
+      </button>
+
+      <div class="d-flex justify-content-between mt-3">
+        <a routerLink="/auth/login" class="btn btn-outline-secondary btn-sm">
+          {{ 'logintitle' | translate }}
+        </a>
+
+        <a routerLink="/auth/register" class="btn btn-outline-secondary btn-sm">
+          {{ 'loginregister' | translate }}
+        </a>
+      </div>
+
+      <p class="mt-5 mb-3 text-body-secondary">&copy; DeepDive 2024</p>
+    </form>
+  </main>
+  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+</div>

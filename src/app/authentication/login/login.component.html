@@ -1,0 +1,95 @@
+<app-settings-popup></app-settings-popup>
+
+<div class="login-container">
+  <main class="form-signin w-100 m-auto">
+    <form
+      [formGroup]="loginForm"
+      autocomplete="off"
+      novalidate
+      (ngSubmit)="loginUser(loginForm.value)">
+      <img
+        class="mb-4"
+        src="assets/logo-cutout-4.png"
+        alt="image"
+        alt=""
+        class="img-fluid" />
+      <h1 class="h3 mb-3 fw-normal">{{ 'logintitle' | translate }}</h1>
+
+      <div class="form-floating">
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder=""
+          formControlName="email" />
+        <label for="email">{{ 'loginemail' | translate }}</label>
+      </div>
+
+      <div class="form-floating formstyle">
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          placeholder=""
+          formControlName="password" />
+        <label for="password">{{ 'loginpassword' | translate }}</label>
+        <div class="text-danger d-flex flex-column">
+          <em *ngIf="validateControl('email') && hasError('email', 'required')">
+            <i class="bi bi-exclamation-triangle"></i>
+            {{ 'loginemailrequired' | translate }}</em
+          >
+          <em *ngIf="validateControl('email') && hasError('email', 'email')">
+            <i class="bi bi-exclamation-triangle"></i>
+            {{ 'loginemailpattern' | translate }}</em
+          >
+          <em
+            *ngIf="
+              validateControl('password') && hasError('password', 'required')
+            ">
+            <i class="bi bi-exclamation-triangle"></i>
+            {{ 'loginpasswordrequired' | translate }}</em
+          >
+        </div>
+      </div>
+
+      <div *ngIf="showError">
+        @if (!!alert) {
+        <ngb-alert [type]="alert.type" (closed)="close()">
+          @if(alert.message === "User has been disabled."){
+          {{ alert.message }}
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="reactivate()">
+            Reactivate
+          </button>
+          } @else{ {{ alert.message }}
+          }
+        </ngb-alert>
+        }
+      </div>
+
+      <button
+        class="btn btn-primary w-100 py-2 loginbutton"
+        type="submit"
+        [disabled]="!loginForm.valid">
+        {{ 'loginsubmit' | translate }}
+      </button>
+
+      <div class="d-flex justify-content-between mt-3">
+        <a
+          routerLink="/auth/forgot-password"
+          class="btn btn-outline-secondary btn-sm">
+          {{ 'loginforgotpassword' | translate }}
+        </a>
+
+        <a routerLink="/auth/register" class="btn btn-outline-secondary btn-sm">
+          {{ 'loginregister' | translate }}
+        </a>
+      </div>
+
+      <p class="mt-5 mb-3 text-body-secondary">&copy; DeepDive 2024</p>
+    </form>
+  </main>
+  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+</div>

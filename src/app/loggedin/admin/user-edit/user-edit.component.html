@@ -1,0 +1,207 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <main>
+        <form
+          (ngSubmit)="updateUser(editinfoForm.value)"
+          [formGroup]="editinfoForm">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center">
+              <button
+                type="button"
+                class="btn btn-outline-secondary me-3"
+                (click)="this.router.navigate(['/admin/users'])">
+                <i class="bi bi-arrow-left"></i>
+              </button>
+              <h2 class="mb-0">{{ 'admineditusertitle' | translate }}</h2>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-outline-success"
+              [disabled]="!editinfoForm.valid">
+              <i class="bi bi-floppy"></i>
+              {{ 'admineditusersave' | translate }}
+            </button>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="firstName" class="form-label">{{
+                'registrationfirstname' | translate
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                id="firstName"
+                formControlName="firstName"
+                placeholder="First Name" />
+              <div
+                class="text-danger"
+                *ngIf="
+                  validateControl('firstName') &&
+                  hasError('firstName', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationfirstnamerequired' | translate }}
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="lastName" class="form-label">{{
+                'registrationlastname' | translate
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                id="lastName"
+                formControlName="lastName"
+                placeholder="Last Name" />
+              <div
+                class="text-danger"
+                *ngIf="
+                  validateControl('lastName') &&
+                  hasError('lastName', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationlastnamerequired' | translate }}
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="username" class="form-label">{{
+                'registrationusername' | translate
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                formControlName="username"
+                placeholder="Username" />
+              <div
+                class="text-danger"
+                *ngIf="
+                  validateControl('username') &&
+                  hasError('username', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationusernamerequired' | translate }}
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="birthdate" class="form-label">{{
+                'registrationbirthday' | translate
+              }}</label>
+              <div class="input-group">
+                <input
+                  id="birthdate"
+                  class="form-control"
+                  placeholder="yyyy-mm-dd"
+                  ngbDatepicker
+                  #dp="ngbDatepicker"
+                  formControlName="birthdate" />
+                <button
+                  (click)="dp.toggle()"
+                  type="button"
+                  class="btn btn-outline-secondary calendar-icon">
+                  <i class="bi bi-calendar3"></i>
+                </button>
+              </div>
+              <div
+                class="text-danger"
+                *ngIf="
+                  validateControl('birthdate') &&
+                  hasError('birthdate', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationbirthdayrequired' | translate }}
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="phoneNumber" class="form-label">{{
+                'registrationphonenumber' | translate
+              }}</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="phoneNumber"
+                formControlName="phoneNumber"
+                placeholder="Phone Number" />
+              <div
+                class="text-danger"
+                *ngIf="
+                  validateControl('phoneNumber') &&
+                  hasError('phoneNumber', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationphonenumberrequired' | translate }}
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="email" class="form-label">{{
+                'registrationemail' | translate
+              }}</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+                placeholder="Email Address" />
+              <div
+                class="text-danger"
+                *ngIf="
+                  validateControl('email') && hasError('email', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationemailrequired' | translate }}
+              </div>
+            </div>
+          </div>
+
+          <hr />
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="password" class="form-label">{{
+                'adminedituserpassword' | translate
+              }}</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                formControlName="password" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="passwordConfirmation" class="form-label">{{
+                'adminedituserpasswordconfirmation' | translate
+              }}</label>
+              <input
+                type="password"
+                class="form-control"
+                id="passwordConfirmation"
+                formControlName="passwordConfirmation" />
+              <div class="text-danger">
+                <div
+                  *ngIf="
+                    validateControl('passwordConfirmation') &&
+                    hasError('passwordConfirmation', 'required')
+                  ">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  {{ 'registrationpasswordconfirmationrequired' | translate }}
+                </div>
+                <div
+                  *ngIf="editinfoForm.hasError('passwordConfirmationNotMatch')">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  {{ 'registrationpasswordconfirmationnotmatch' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </main>
+    </div>
+  </div>
+</div>

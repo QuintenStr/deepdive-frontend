@@ -1,0 +1,191 @@
+<main *ngIf="this.dashboardinfo" class="">
+  <div
+    *ngIf="this.dashboardinfo.randomExcursionInfos.length === 3"
+    id="myCarousel"
+    class="carousel slide mb-6 border rounded custom-shadow"
+    data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button
+        type="button"
+        data-bs-target="#myCarousel"
+        data-bs-slide-to="0"
+        class="active"
+        aria-current="true"
+        aria-label="Slide 1"></button>
+      <button
+        type="button"
+        data-bs-target="#myCarousel"
+        data-bs-slide-to="1"
+        aria-label="Slide 2"></button>
+      <button
+        type="button"
+        data-bs-target="#myCarousel"
+        data-bs-slide-to="2"
+        aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img
+          [alt]="this.dashboardinfo.randomExcursionInfos[0].title"
+          [src]="baseUrl + this.dashboardinfo.randomExcursionInfos[0].imageName"
+          class="w-100" />
+
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <h1 class="carousel-caption-shadow text-white">
+              {{ this.dashboardinfo.randomExcursionInfos[0].title }}
+            </h1>
+            <p class="carousel-caption-shadow text-white">
+              {{
+                this.dashboardinfo.randomExcursionInfos[0].description
+                  | truncate : 75
+              }}
+            </p>
+            <p>
+              <a
+                class="btn btn-lg btn-primary"
+                [routerLink]="[
+                  '/excursions/details/' +
+                    this.dashboardinfo.randomExcursionInfos[0].id
+                ]"
+                routerLinkActive="router-link-active"
+                >{{ 'homedashboardlinklearnmore' | translate }}</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img
+          [alt]="this.dashboardinfo.randomExcursionInfos[1].title"
+          [src]="baseUrl + this.dashboardinfo.randomExcursionInfos[1].imageName"
+          class="w-100" />
+        <div class="container">
+          <div class="carousel-caption">
+            <h1 class="carousel-caption-shadow text-white">
+              {{ this.dashboardinfo.randomExcursionInfos[1].title }}
+            </h1>
+            <p class="carousel-caption-shadow text-white">
+              {{
+                this.dashboardinfo.randomExcursionInfos[1].description
+                  | truncate : 75
+              }}
+            </p>
+            <p>
+              <a
+                class="btn btn-lg btn-primary"
+                [routerLink]="[
+                  '/excursions/details/' +
+                    this.dashboardinfo.randomExcursionInfos[1].id
+                ]"
+                routerLinkActive="router-link-active"
+                >{{ 'homedashboardlinklearnmore' | translate }}</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img
+          [alt]="this.dashboardinfo.randomExcursionInfos[2].title"
+          [src]="baseUrl + this.dashboardinfo.randomExcursionInfos[2].imageName"
+          class="w-100" />
+        <div class="container">
+          <div class="carousel-caption text-end">
+            <h1 class="carousel-caption-shadow text-white">
+              {{ this.dashboardinfo.randomExcursionInfos[2].title }}
+            </h1>
+            <p class="carousel-caption-shadow text-white">
+              {{
+                this.dashboardinfo.randomExcursionInfos[2].description
+                  | truncate : 75
+              }}
+            </p>
+            <p>
+              <a
+                class="btn btn-lg btn-primary"
+                [routerLink]="[
+                  '/excursions/details/' +
+                    this.dashboardinfo.randomExcursionInfos[2].id
+                ]"
+                routerLinkActive="router-link-active"
+                >{{ 'homedashboardlinklearnmore' | translate }}</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#myCarousel"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">{{
+        'homedashboardprevious' | translate
+      }}</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#myCarousel"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">{{ 'homedashboardnext' | translate }}</span>
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+      <!-- Adjusts for large, medium, and small screens -->
+      <div class="card custom-shadow">
+        <div class="card-body">
+          <h5 class="card-title display-1 d-flex justify-content-center">
+            {{ this.dashboardinfo.totalExcursions }}
+          </h5>
+          <p class="card-text">
+            {{ 'homedashboardtotalexcursions' | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+      <div class="card custom-shadow">
+        <div class="card-body">
+          <h5 class="card-title display-1 d-flex justify-content-center">
+            {{ this.dashboardinfo.upcomingExcursions }}
+          </h5>
+          <p class="card-text">
+            {{ 'homedashboardupcomingexcursions' | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+      <div class="card custom-shadow">
+        <div class="card-body">
+          <h5 class="card-title display-1 d-flex justify-content-center">
+            {{ this.dashboardinfo.participatedInExcursions }}
+          </h5>
+          <p class="card-text">
+            {{ 'homedashboardparticipatedinexcursions' | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+      <div class="card custom-shadow">
+        <div class="card-body">
+          <h5 class="card-title display-1 d-flex justify-content-center">
+            {{ this.dashboardinfo.goingToParticipateInExcursions }}
+          </h5>
+          <p class="card-text">
+            {{ 'homedashboardgoingtoparticipateinexcursions' | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>

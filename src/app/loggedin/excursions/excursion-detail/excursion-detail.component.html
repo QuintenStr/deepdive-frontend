@@ -1,0 +1,194 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      {{ 'excursiondetailsparticipanttitle' | translate }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <label for="usersselect">{{
+      'excursiondetailsparticipantsearch' | translate
+    }}</label>
+    <div class="mb-3">
+      <input
+        id="usersselect"
+        type="text"
+        class="form-control"
+        [(ngModel)]="model"
+        [ngbTypeahead]="search"
+        [resultTemplate]="rt"
+        [inputFormatter]="formatter"
+        (selectItem)="onSelect($event)" />
+      <ng-template #rt let-r="result" let-t="term">
+        <ngb-highlight
+          [result]="r.firstName + ' ' + r.lastName"
+          [term]="t"></ngb-highlight>
+      </ng-template>
+    </div>
+    <p>{{ 'excursiondetailsparticipantselectusers' | translate }}</p>
+    <p *ngIf="this.selectedUsers.length === 0">
+      {{ 'excursiondetailsparticipantselectusersnone' | translate }}
+    </p>
+    <ol class="list-group list-group-numbered">
+      <li
+        class="list-group-item d-flex justify-content-between align-items-center"
+        *ngFor="let user of selectedUsers">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">&#64;{{ user.userName }}</div>
+          {{ user.firstName }} {{ user.lastName }}
+        </div>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          (click)="removeFromSelectedUsers(user.id)">
+          {{ 'excursiondetailsparticipantselectuserremove' | translate }}
+        </button>
+      </li>
+    </ol>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="modal.dismiss('cancel click')">
+      {{ 'excursiondetailsparticipantcancel' | translate }}
+    </button>
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="modal.close('Ok click')">
+      {{ 'excursiondetailsparticipantsubmit' | translate }}
+    </button>
+  </div>
+</ng-template>
+
+<main>
+  <div class="container">
+    @if(excursion){ @if(this.authService.isUserAdmin()){
+    <div class="btn-group mb-3" role="group">
+      <button type="button" class="btn btn-secondary" disabled>
+        <i class="bi bi-hammer"></i>
+        {{ 'excursiondetailsadmintools' | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="editExcursion(excursion.id)">
+        <i class="bi bi-pencil-square"></i>
+        {{ 'excursiondetailsadmintoolseditexcursion' | translate }}
+      </button>
+      <button type="button" class="btn btn-primary" (click)="open(content)">
+        <i class="bi bi-people"></i>
+        {{ 'excursiondetailsadmintoolsaddparticipants' | translate }}
+      </button>
+    </div>
+    }
+
+    <div class="p-2 p-md-5 p-sm-3 mb-4 bg-body-tertiary rounded-3 shadow">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-8">
+            <h1 class="display-5 fw-bold">{{ excursion.title }}</h1>
+            <p class="col-md-8">
+              {{ excursion.description }}
+            </p>
+            <hr />
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+              <span>
+                <i class="bi bi-person-circle"></i>
+                {{ 'excursiondetailsorganiser' | translate }}:
+                @if(excursion.createdByUser){
+                {{ excursion.createdByUser.firstName }}
+                {{ excursion.createdByUser.lastName }}
+                } @else{
+                {{ 'excursiondetailsusernotfound' | translate }}
+                }
+              </span>
+              <span>
+                <i class="bi bi-calendar3"></i>
+                {{ formatDate(excursion.dateTime) }}
+              </span>
+              <span>
+                <i class="bi bi-geo"></i>
+                {{ excursion.coordinates.lat }}
+                {{ excursion.coordinates.long }}
+              </span>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <img
+              class="card-img-top"
+              [src]="
+                'https://storagedeepdiveapp.blob.core.windows.net/excursions/' +
+                excursion.imageName
+              "
+              alt="Excursion Image"
+              class="img-fluid rounded-3"
+              (error)="handleImageError($event)" />
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+
+    <div class="row align-items-md-stretch">
+      @if(excursion){
+      <div class="col-md-6 mb-3">
+        <div class="h-100 p-5 text-bg-dark border shadow rounded-3">
+          <h2>{{ 'excursiondetailswhoscoming' | translate }}</h2>
+          @if(excursion.participants.length === 0){
+          <p>{{ 'excursiondetailswhoscomingnobody' | translate }}</p>
+          }
+          <ul class="list-group mb-3">
+            <li
+              *ngFor="let participant of excursion.participants"
+              class="list-group-item d-flex flex-column flex-lg-row justify-content-between align-items-lg-center">
+              <div class="mb-2 mb-lg-0">
+                <!-- Margin bottom on small devices, no margin on large devices -->
+                <div class="fw-bold">&#64;{{ participant.userName }}</div>
+                {{ participant.firstName }} {{ participant.lastName }}
+              </div>
+              <button
+                (click)="removeUserFromExcursion(participant.id)"
+                class="btn btn-outline-danger"
+                type="button"
+                *ngIf="this.authService.isUserAdmin()">
+                {{ 'excursiondetailsparticipantremove' | translate }}
+              </button>
+            </li>
+          </ul>
+          <button
+            (click)="joinExcursion()"
+            class="btn btn-outline-light me-3"
+            type="button"
+            *ngIf="!userJoinedExcursion()">
+            {{ 'excursiondetailsparticipantjoin' | translate }}
+          </button>
+          <button
+            (click)="leaveExcursion()"
+            class="btn btn-outline-light"
+            type="button"
+            *ngIf="userJoinedExcursion()">
+            {{ 'excursiondetailsparticipantleave' | translate }}
+          </button>
+        </div>
+      </div>
+      }
+
+      <div class="col-md-6 mb-3">
+        <div
+          class="h-100 p-5 bg-body-tertiary border shadow rounded-3"
+          style="display: flex; flex-direction: column">
+          <h2 style="margin-bottom: 0">
+            {{ 'excursiondetailslocation' | translate }}
+          </h2>
+          <div id="map" style="flex: 1; width: 100%; min-height: 200px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

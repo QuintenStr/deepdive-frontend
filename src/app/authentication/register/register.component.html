@@ -1,0 +1,364 @@
+<div class="login-container">
+  <main class="form-signin w-100 m-auto">
+    <form
+      [formGroup]="registerForm"
+      autocomplete="off"
+      novalidate
+      (ngSubmit)="registerUser(registerForm.value)">
+      <h1 class="h3 mb-3 fw-normal">{{ 'registrationform' | translate }}</h1>
+
+      <div class="row mb-3">
+        <!-- First Name -->
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              id="firstName"
+              placeholder=""
+              formControlName="firstName" />
+            <label for="firstName">{{
+              'registrationfirstname' | translate
+            }}</label>
+            <div class="text-danger">
+              <div
+                *ngIf="
+                  validateControl('firstName') &&
+                  hasError('firstName', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationfirstnamerequired' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              id="lastName"
+              placeholder=""
+              formControlName="lastName" />
+            <label for="lastName">{{
+              'registrationlastname' | translate
+            }}</label>
+            <div class="text-danger">
+              <div
+                *ngIf="
+                  validateControl('lastName') &&
+                  hasError('lastName', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationlastnamerequired' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <!-- Username -->
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              id="userName"
+              placeholder=""
+              formControlName="userName" />
+            <label for="userName">{{
+              'registrationusername' | translate
+            }}</label>
+            <div class="text-danger">
+              <div
+                *ngIf="
+                  validateControl('userName') &&
+                  hasError('userName', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationusernamerequired' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input
+              type="tel"
+              class="form-control"
+              id="phoneNumber"
+              placeholder=""
+              formControlName="phoneNumber" />
+            <label for="phoneNumber">{{
+              'registrationphonenumber' | translate
+            }}</label>
+            <div class="text-danger">
+              <div
+                *ngIf="
+                  validateControl('phoneNumber') &&
+                  hasError('phoneNumber', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationphonenumberrequired' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <!-- Email -->
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder=""
+              formControlName="email" />
+            <label for="email">{{ 'registrationemail' | translate }}</label>
+            <div class="text-danger">
+              <div
+                *ngIf="
+                  validateControl('email') && hasError('email', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationemailrequired' | translate }}
+              </div>
+              <div
+                *ngIf="validateControl('email') && hasError('email', 'email')">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationemailnotvalid' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email Confirmation -->
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input
+              type="email"
+              class="form-control"
+              id="emailConfirmation"
+              placeholder=""
+              formControlName="emailConfirmation" />
+            <label for="emailConfirmation">{{
+              'registrationemailconfirmation' | translate
+            }}</label>
+            <div class="text-danger">
+              <div
+                *ngIf="
+                  validateControl('emailConfirmation') &&
+                  hasError('emailConfirmation', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationemailconfirmationrequired' | translate }}
+              </div>
+              <div
+                *ngIf="
+                  validateControl('emailConfirmation') &&
+                  hasError('emailConfirmation', 'email')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationemailconfirmationnotvalid' | translate }}
+              </div>
+              <div *ngIf="registerForm.hasError('emailConfirmationNotMatch')">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationemailconfirmationnotmatch' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <!-- Password -->
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              placeholder=""
+              formControlName="password" />
+            <label for="password">{{
+              'registrationpassword' | translate
+            }}</label>
+            <div class="text-danger">
+              <div
+                *ngIf="
+                  validateControl('password') &&
+                  hasError('password', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationpasswordrequired' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Password Confirmation -->
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              id="passwordConfirmation"
+              placeholder=""
+              formControlName="passwordConfirmation" />
+            <label for="passwordConfirmation">{{
+              'registrationpasswordconfirmation' | translate
+            }}</label>
+            <div class="text-danger">
+              <div
+                *ngIf="
+                  validateControl('passwordConfirmation') &&
+                  hasError('passwordConfirmation', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationpasswordconfirmationrequired' | translate }}
+              </div>
+              <div
+                *ngIf="registerForm.hasError('passwordConfirmationNotMatch')">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'registrationpasswordconfirmationnotmatch' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="form-group">
+          <label for="datepicker">{{
+            'registrationbirthday' | translate
+          }}</label>
+          <div class="input-group">
+            <input
+              id="datepicker"
+              class="form-control"
+              placeholder=""
+              ngbDatepicker
+              #dp="ngbDatepicker"
+              [displayMonths]="2"
+              [dayTemplate]="customDay"
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              formControlName="birthDate" />
+            <div class="input-group-append">
+              <button
+                (click)="dp.toggle()"
+                type="button"
+                class="btn btn-outline-secondary calendar-icon">
+                <i class="bi bi-calendar3"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-danger">
+            <div
+              *ngIf="
+                validateControl('birthDate') &&
+                hasError('birthDate', 'required')
+              ">
+              <i class="bi bi-exclamation-triangle"></i>
+              {{ 'registrationbirthdayrequired' | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- File Upload -->
+      <div class="mb-3" *ngFor="let documentType of documentTypes">
+        <div class="col-md-12 mb-3">
+          <label for="{{ RegistrationDocumentTypes[documentType] | translate }}"
+            >{{ RegistrationDocumentTypes[documentType] | translate }} (pdf,
+            png, jpg)</label
+          >
+          <input
+            type="file"
+            class="form-control"
+            id="{{ RegistrationDocumentTypes[documentType] }}"
+            (change)="onFileChange($event, documentType)" />
+          <div class="text-danger">
+            <div
+              *ngIf="
+                registerForm.get(
+                  'documents.' + RegistrationDocumentTypes[documentType]
+                )?.touched &&
+                registerForm
+                  .get('documents.' + RegistrationDocumentTypes[documentType])
+                  ?.hasError('nullFile')
+              ">
+              <i class="bi bi-exclamation-triangle"></i>
+              {{ 'registrationdocumentrequired' | translate }}
+            </div>
+            <div
+              *ngIf="
+                registerForm.get(
+                  'documents.' + RegistrationDocumentTypes[documentType]
+                )?.touched &&
+                registerForm
+                  .get('documents.' + RegistrationDocumentTypes[documentType])
+                  ?.hasError('invalidFileType')
+              ">
+              <i class="bi bi-exclamation-triangle"></i>
+              {{ 'registrationdocumentinvalidfiletype' | translate }}
+            </div>
+          </div>
+        </div>
+        <div
+          class="progress mb-3"
+          *ngIf="uploadProgresses[RegistrationDocumentTypes[documentType]] > 0">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated"
+            role="progressbar"
+            [attr.aria-valuenow]="
+              uploadProgresses[RegistrationDocumentTypes[documentType]]
+            "
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [style.width]="
+              uploadProgresses[RegistrationDocumentTypes[documentType]] + '%'
+            ">
+            {{
+              uploadProgresses[RegistrationDocumentTypes[documentType]]
+                | number : '1.0-2'
+            }}%
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showError" class="alert alert-danger" role="alert">
+        <span [innerHTML]="errorMessage"></span>
+      </div>
+
+      <button
+        class="btn btn-primary w-100 py-2 loginbutton"
+        type="submit"
+        [disabled]="!registerForm.valid">
+        {{ 'registrationregister' | translate }}
+      </button>
+
+      <div class="d-flex justify-content-between mt-3">
+        <a
+          routerLink="/auth/forgot-password"
+          class="btn btn-outline-secondary btn-sm">
+          {{ 'loginforgotpassword' | translate }}
+        </a>
+
+        <a routerLink="/auth/login" class="btn btn-outline-secondary btn-sm">
+          {{ 'logintitle' | translate }}
+        </a>
+      </div>
+
+      <p class="mt-5 mb-3 text-body-secondary">&copy; DeepDive 2024</p>
+    </form>
+  </main>
+  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+</div>

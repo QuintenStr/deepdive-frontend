@@ -1,0 +1,160 @@
+<div class="floating-component">
+  <button
+    type="button"
+    class="btn btn-outline-secondary"
+    data-bs-toggle="modal"
+    data-bs-target="#exampleModal">
+    <i class="bi bi-gear"></i>
+  </button>
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          {{ 'navbarsettingspersonal' | translate }}
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h2>{{ 'settingscolorsettings' | translate }}</h2>
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+          <div class="col">
+            <div
+              class="card mb-4 rounded-3 shadow-sm"
+              [ngClass]="{ 'border-primary': selectedTheme === 'light' }">
+              <div
+                class="card-header py-3"
+                [ngClass]="{
+                  'text-bg-primary border-primary': selectedTheme === 'light'
+                }">
+                <h4 class="my-0 fw-normal">
+                  {{ 'settingscolorbright' | translate }}
+                </h4>
+              </div>
+              <div class="card-body">
+                <h1 class="card-title pricing-card-title">
+                  <i class="bi bi-sun"></i>
+                </h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                  <li>{{ 'settingscolorbrightdescription' | translate }}</li>
+                </ul>
+                <button
+                  [disabled]="selectedTheme === 'light'"
+                  type="button"
+                  class="w-100 btn btn-lg btn-primary"
+                  (click)="selectTheme('light')"
+                  (keyup.enter)="selectTheme('light')">
+                  @if(selectedTheme === 'light'){
+                  {{ 'settingscolorselected' | translate }}
+                  } @else{
+                  {{ 'settingscolorselect' | translate }}
+                  }
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div
+              class="card mb-4 rounded-3 shadow-sm"
+              [ngClass]="{ 'border-primary': selectedTheme === 'dark' }">
+              <div
+                class="card-header py-3"
+                [ngClass]="{
+                  'text-bg-primary border-primary': selectedTheme === 'dark'
+                }">
+                <h4 class="my-0 fw-normal">
+                  {{ 'settingscolordark' | translate }}
+                </h4>
+              </div>
+              <div class="card-body">
+                <h1 class="card-title pricing-card-title">
+                  <i class="bi bi-moon-stars"></i>
+                </h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                  <li>{{ 'settingscolordarkdescription' | translate }}</li>
+                </ul>
+                <button
+                  [disabled]="selectedTheme === 'dark'"
+                  type="button"
+                  class="w-100 btn btn-lg btn-primary"
+                  (click)="selectTheme('dark')"
+                  (keyup.enter)="selectTheme('dark')">
+                  @if(selectedTheme === 'dark'){
+                  {{ 'settingscolorselected' | translate }}
+                  } @else{
+                  {{ 'settingscolorselect' | translate }}
+                  }
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div
+              class="card mb-4 rounded-3 shadow-sm"
+              [ngClass]="{ 'border-primary': selectedTheme === 'system' }">
+              <div
+                class="card-header py-3"
+                [ngClass]="{
+                  'text-bg-primary border-primary': selectedTheme === 'system'
+                }">
+                <h4 class="my-0 fw-normal">
+                  {{ 'settingscolorsystempreference' | translate }}
+                </h4>
+              </div>
+              <div class="card-body">
+                <h1 class="card-title pricing-card-title">
+                  <i class="bi bi-circle-half"></i>
+                </h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                  <li>
+                    {{ 'settingscolorsystempreferencedescription' | translate }}
+                  </li>
+                </ul>
+                <button
+                  class="w-100 btn btn-lg btn-primary"
+                  [disabled]="selectedTheme === 'system'"
+                  type="button"
+                  (click)="selectTheme('system')"
+                  (keyup.enter)="selectTheme('system')">
+                  @if(selectedTheme === 'system'){
+                  {{ 'settingscolorselected' | translate }}
+                  } @else{
+                  {{ 'settingscolorselect' | translate }}
+                  }
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h2>{{ 'settingslanguagesettings' | translate }}</h2>
+        <div class="col-md-6 mb-3">
+          <select
+            [(ngModel)]="selectedLanguage"
+            (change)="changeLanguage($event)"
+            class="form-select"
+            aria-label="Language select">
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="nl">Nederlands</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          {{ 'close' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

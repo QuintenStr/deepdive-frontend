@@ -1,0 +1,79 @@
+<h2>{{ 'adminuserstabletitle' | translate }}</h2>
+
+<div class="user-table-Container">
+  <form>
+    <div class="d-flex mb-3">
+      <label
+        for="table-filtering-search"
+        class="col-xs-3 col-sm-auto col-form-label me-3"
+        >{{ 'adminuserstablesearch' | translate }}</label
+      >
+      <div class="col-xs-3 col-sm-auto me-3">
+        <input
+          id="table-filtering-search"
+          class="form-control"
+          type="text"
+          [(ngModel)]="searchText"
+          (input)="onSearchChange($event)"
+          [ngModelOptions]="{ standalone: true }" />
+      </div>
+      <button
+        class="btn btn-outline-danger"
+        (click)="clearSearch()"
+        *ngIf="searchText !== ''">
+        {{ 'adminuserstablesearchclear' | translate }}
+      </button>
+    </div>
+  </form>
+
+  <div class="table-responsive shadow-sm mb-3">
+    <table class="table table-striped table-hover table-bordered mb-0">
+      <thead>
+        <tr>
+          <th scope="col">{{ 'adminuserstablename' | translate }}</th>
+          <th scope="col">{{ 'adminuserstableusername' | translate }}</th>
+          <th scope="col">{{ 'adminuserstablebirthday' | translate }}</th>
+          <th scope="col">{{ 'adminuserstableemail' | translate }}</th>
+          <th scope="col">{{ 'adminuserstablephonenumber' | translate }}</th>
+          <th scope="col" style="width: 0 !important"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of alluserswithfilter">
+          <td>
+            {{ item.firstName || 'unknown' }} {{ item.lastName || 'unknown' }}
+          </td>
+          <td>{{ item.username || 'unknown' }}</td>
+          <td>{{ item.birthdate | dateformat }}</td>
+          <td>{{ item.email || 'unknown' }}</td>
+          <td>{{ item.phoneNumber || 'unknown' }}</td>
+          <td>
+            <button class="btn btn-primary">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                ><i class="bi bi-three-dots-vertical"> </i
+              ></a>
+              <ul class="dropdown-menu dropdown-menu-lg-end">
+                <li>
+                  <a
+                    class="dropdown-item"
+                    routerLink="/settings"
+                    (click)="openUser(item.id)"
+                    ><i class="bi bi-pencil-square me-2"></i
+                    >{{ 'adminuserstableedit' | translate }}</a
+                  >
+                </li>
+              </ul>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="alluserswithfilter.length === 0">
+    {{ 'adminuserstableempty' | translate }}
+  </div>
+</div>

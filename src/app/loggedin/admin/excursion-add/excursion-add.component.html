@@ -1,0 +1,231 @@
+<div class="progress mb-3" *ngIf="uploadProgress">
+  <div
+    class="progress-bar progress-bar-striped progress-bar-animated"
+    role="progressbar"
+    [attr.aria-valuenow]="uploadProgress"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [style.width]="uploadProgress + '%'">
+    {{ uploadProgress | number : '1.0-2' }}%
+  </div>
+</div>
+<div class="login-container">
+  <main class="form-signin w-100 m-auto">
+    <form
+      [formGroup]="newExcursionForm"
+      autocomplete="off"
+      novalidate
+      (ngSubmit)="addExcursion(newExcursionForm.value)">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center">
+          <button
+            type="button"
+            class="btn btn-outline-secondary me-3"
+            (click)="this.router.navigate(['/excursions/list'])">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+          <h2 class="mb-0">{{ 'adminnewexcursiontitleheader' | translate }}</h2>
+        </div>
+        <button
+          class="btn"
+          [class.btn-success]="newExcursionForm.valid"
+          [class.btn-outline-success]="!newExcursionForm.valid"
+          [disabled]="!newExcursionForm.valid"
+          type="submit">
+          <i class="bi bi-floppy"></i>
+          {{ 'adminnewexcursionsave' | translate }}
+        </button>
+      </div>
+      <hr />
+
+      <div class="row mb-3">
+        <div class="col">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              formControlName="title" />
+            <label for="title">{{
+              'adminnewexcursiontitle' | translate
+            }}</label>
+            <div class="text-danger">
+              <div
+                *ngIf="
+                  validateControl('title') && hasError('title', 'required')
+                ">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'adminnewexcursiontitlerequired' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          <div class="d-flex">
+            <div class="form-floating flex-grow-1 me-3">
+              <textarea
+                type="text"
+                class="form-control heightarea"
+                id="description"
+                formControlName="description"
+                rows="5">
+              </textarea>
+              <label for="description">{{
+                'adminnewexcursiondescription' | translate
+              }}</label>
+              <div class="text-danger">
+                <div
+                  *ngIf="
+                    validateControl('description') &&
+                    hasError('description', 'required')
+                  ">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  {{ 'adminnewexcursiondescriptionrequired' | translate }}
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group ms-auto" style="width: auto">
+              <ngb-timepicker
+                formControlName="time"
+                [hourStep]="hourStep"
+                [minuteStep]="minuteStep"
+                [meridian]="false"
+                id="timepicker"
+                name="timepicker">
+              </ngb-timepicker>
+              <div class="text-danger">
+                <div
+                  *ngIf="
+                    validateControl('time') && hasError('time', 'required')
+                  ">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  {{ 'adminnewexcursiontimerequired' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input
+              type="number"
+              class="form-control"
+              id="lat"
+              placeholder="First Name"
+              formControlName="lat" />
+            <label for="lat">{{ 'adminnewexcursionlat' | translate }}</label>
+            <div class="text-danger">
+              <div
+                *ngIf="validateControl('lat') && hasError('lat', 'required')">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'adminnewexcursionlatrequired' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input
+              type="number"
+              class="form-control"
+              id="long"
+              placeholder="Last Name"
+              formControlName="long" />
+            <label for="long">{{ 'adminnewexcursionlong' | translate }}</label>
+            <div class="text-danger">
+              <div
+                *ngIf="validateControl('long') && hasError('long', 'required')">
+                <i class="bi bi-exclamation-triangle"></i>
+                {{ 'adminnewexcursionlongrequired' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="map" class="map mb-3"></div>
+
+      <div class="row mb-3">
+        <div class="form-group">
+          <label for="datepicker">{{
+            'adminnewexcursiondate' | translate
+          }}</label>
+          <div class="input-group">
+            <input
+              id="datepicker"
+              class="form-control"
+              placeholder="dd-mm-yyyy"
+              ngbDatepicker
+              #dp="ngbDatepicker"
+              [displayMonths]="2"
+              [dayTemplate]="customDay"
+              [minDate]="minDate"
+              formControlName="date" />
+            <div class="input-group-append">
+              <button
+                (click)="dp.toggle()"
+                type="button"
+                class="btn btn-outline-secondary calendar-icon">
+                <i class="bi bi-calendar3"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-danger">
+            <div
+              *ngIf="validateControl('date') && hasError('date', 'required')">
+              <i class="bi bi-exclamation-triangle"></i>
+              {{ 'adminnewexcursiondaterequired' | translate }}
+            </div>
+            <div *ngIf="hasError('date', 'dateInPast')" class="text-danger">
+              <i class="bi bi-exclamation-triangle"></i>
+              {{ 'adminnewexcursiondatenotinpast' | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-12 mb-3">
+          <label for="coverImage"
+            >{{ 'adminnewexcursioncoverimg' | translate }} (png, jpg)</label
+          >
+          <input
+            type="file"
+            class="form-control"
+            id="coverImage"
+            (change)="onFileChange($event)" />
+          <div class="text-danger">
+            <div
+              *ngIf="
+                newExcursionForm.get('coverImage')?.touched &&
+                newExcursionForm.get('coverImage')?.hasError('nullFile')
+              ">
+              <i class="bi bi-exclamation-triangle"></i>
+              {{ 'adminnewexcursioncoverimgrequired' | translate }}
+            </div>
+            <div
+              *ngIf="
+                newExcursionForm.get('coverImage')?.touched &&
+                newExcursionForm.get('coverImage')?.hasError('invalidFileType')
+              ">
+              <i class="bi bi-exclamation-triangle"></i>
+              {{ 'adminnewexcursioncoverimginvalidfiletype' | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showError" class="alert alert-danger" role="alert">
+        <span [innerHTML]="errorMessage"></span>
+      </div>
+    </form>
+  </main>
+</div>

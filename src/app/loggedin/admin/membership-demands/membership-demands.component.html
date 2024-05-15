@@ -1,0 +1,153 @@
+<div class="membership_demands">
+  <h2>{{ 'adminregisterapplicationstitle' | translate }}</h2>
+  <div class="accordion" id="accordionExample">
+    <div
+      class="accordion-item shadow-sm"
+      *ngFor="let demand of applications; let i = index">
+      <h2 class="accordion-header" [attr.id]="'heading' + i">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#collapse' + i"
+          aria-expanded="true"
+          [attr.aria-controls]="'collapse' + i">
+          <div class="d-flex justify-content-between w-100">
+            <p style="margin: 0 !important; padding: 0 !important">
+              {{ demand.firstName }} {{ demand.lastName }} |
+              {{ formatDate(demand.createdOn) }}
+            </p>
+            <p class="p-0 m-0 me-3">
+              {{ 'adminregisterapplicationticketnr' | translate }}:
+              {{ demand.id }}
+            </p>
+          </div>
+        </button>
+      </h2>
+      <div
+        [id]="'collapse' + i"
+        class="accordion-collapse collapse"
+        [class.show]="i === 0"
+        [attr.aria-labelledby]="'heading' + i"
+        data-bs-parent="#accordionExample">
+        <div class="container-xl">
+          <div class="row border-bottom">
+            <!-- Left Side -->
+            <div
+              class="col-md-6 labels-container customborder border-light-subtle d-flex flex-column p-3">
+              <h5>
+                {{ 'adminregisterapplicationinformationtitle' | translate }}
+              </h5>
+              <label for="firstName"
+                >{{
+                  'adminregisterapplicationinformationfirstname' | translate
+                }}
+                : <strong>{{ demand.firstName }}</strong></label
+              >
+              <label for="lastName"
+                >{{
+                  'adminregisterapplicationinformationlastname' | translate
+                }}
+                : <strong>{{ demand.lastName }}</strong></label
+              >
+              <label for="birthday"
+                >{{
+                  'adminregisterapplicationinformationbirthday' | translate
+                }}
+                : <strong>{{ demand.birthDate }}</strong></label
+              >
+              <label for="email"
+                >{{ 'adminregisterapplicationinformationemail' | translate }} :
+                <strong>{{ demand.email }}</strong></label
+              >
+              <label for="username"
+                >{{
+                  'adminregisterapplicationinformationusername' | translate
+                }}
+                : <strong>{{ demand.userName }}</strong></label
+              >
+            </div>
+
+            <!-- Right Side -->
+            <div class="col-md-6 p-3">
+              <h5>
+                {{ 'adminregisterapplicationdocumentstitle' | translate }}
+              </h5>
+              <ul>
+                <li *ngFor="let document of demand.documentsInfo">
+                  <a
+                    tabindex="0"
+                    class="link-primary"
+                    style="cursor: pointer"
+                    (click)="onDocumentClick(document)"
+                    (keydown.enter)="onDocumentClick(document)"
+                    >{{
+                      getDocumentTypeString(document.documentType) | translate
+                    }}: {{ document.documentName }}</a
+                  >
+                </li>
+              </ul>
+              <div class="form-group mt-3">
+                <label for="comments"
+                  >{{
+                    'adminregisterapplicationdocumentscommentstitle'
+                      | translate
+                  }}:</label
+                >
+                <textarea
+                  class="form-control"
+                  id="comments"
+                  rows="3"
+                  [placeholder]="
+                    'adminregisterapplicationdocumentscommentsplaceholder'
+                      | translate
+                  "
+                  [(ngModel)]="comment"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row d-flex justify-content-end">
+            <div
+              class="col-12 col-sm-auto d-flex flex-column flex-sm-row justify-content-end p-3">
+              <button
+                type="button"
+                class="btn btn-outline-primary mb-3 mb-sm-0 me-sm-3"
+                (click)="
+                  updateRequest(demand.id, requestStatus.Approved, null)
+                ">
+                <i class="bi bi-person-check me-2"></i
+                >{{ 'adminregisterapplicationaccept' | translate }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary mb-3 mb-sm-0 me-sm-3"
+                (click)="
+                  updateRequest(
+                    demand.id,
+                    requestStatus.WaitingForUserChanges,
+                    comment
+                  )
+                ">
+                <i class="bi bi-person-exclamation me-2"></i
+                >{{ 'adminregisterapplicationrequestmoreinfo' | translate }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                (click)="updateRequest(demand.id, requestStatus.Denied, null)">
+                <i class="bi bi-person-slash me-2"></i
+                >{{ 'adminregisterapplicationdeny' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@if(applications){
+<p *ngIf="applications.length === 0">
+  {{ 'adminregisterapplicationempty' | translate }}
+</p>
+}

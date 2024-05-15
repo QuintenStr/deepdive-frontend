@@ -1,0 +1,217 @@
+<nav
+  class="navbar navbar-expand-lg"
+  [ngClass]="{
+    'navbar-light bg-body-tertiary':
+      themeService.getPreferredThemeAbsolut() === 'dark',
+    'navbar-dark bg-dark': themeService.getPreferredThemeAbsolut() === 'light'
+  }">
+  <div class="container-xl">
+    <a class="navbar-brand" routerLink="/home">
+      <img
+        src="../../../../assets/logo-cutout.png"
+        width="30"
+        height="30"
+        class="d-inline-block align-top imghover"
+        alt="" />
+      DeepDive
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarsXL"
+      aria-controls="navbarsXL"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsXL">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            aria-current="page"
+            routerLink="/home"
+            ><i class="bi-house me-2"></i>{{ 'navbarhome' | translate }}</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLinkActive="active"
+            aria-current="page"
+            routerLink="/excursions"
+            ><i class="bi-water me-2"></i
+            >{{ 'navbarexcursions' | translate }}</a
+          >
+        </li>
+        @if(this.authService.isUserAdmin()){
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/admin"
+            ><i class="bi-tools me-2"></i>{{ 'navbaradmin' | translate }}</a
+          >
+        </li>
+        }
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            ><i class="bi bi-person-circle"></i
+          ></a>
+          <ul class="dropdown-menu dropdown-menu-lg-end">
+            <li>
+              <a class="dropdown-item" routerLink="/settings"
+                ><i class="bi bi-gear me-3"></i
+                >{{ 'navbarsettings' | translate }}</a
+              >
+            </li>
+            <div class="dropdown-divider"></div>
+            <li>
+              <a
+                class="dropdown-item"
+                (click)="logout()"
+                style="cursor: pointer"
+                (keydown.enter)="logout()"
+                tabindex="0"
+                ><i class="bi bi-box-arrow-right me-3"></i
+                >{{ 'navbarlogout' | translate }}</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- home specific -->
+@if (this.router.url.startsWith('/home')) {
+<div class="nav-scroller bg-body shadow-sm mb-3">
+  <div class="container-xl">
+    <nav class="nav" aria-label="Secondary navigation">
+      <a
+        class="nav-link"
+        aria-current="page"
+        href="#"
+        routerLinkActive="active"
+        routerLink="/home"
+        ><i class="bi-speedometer me-2"></i
+        >{{ 'navbarhomedashboard' | translate }}</a
+      >
+    </nav>
+  </div>
+</div>
+}
+
+<!-- excursions specific -->
+@if (this.router.url.startsWith('/excursions')) {
+<div class="nav-scroller bg-body shadow-sm mb-3">
+  <div class="container-xl">
+    <nav class="nav" aria-label="Secondary navigation">
+      <a
+        class="nav-link"
+        aria-current="page"
+        href="#"
+        routerLinkActive="active"
+        routerLink="/excursions/list"
+        ><i class="bi-list me-2"></i
+        >{{ 'navbarexcursionsoverview' | translate }}</a
+      >
+      @if(this.router.url.startsWith('/excursions/details')){
+      <a
+        class="nav-link"
+        aria-current="page"
+        href="#"
+        routerLinkActive="active"
+        [routerLink]="this.router.url"
+        ><i class="bi-info-circle me-2"></i
+        >{{ 'navbarexcursionsdetail' | translate }}</a
+      >
+      }
+    </nav>
+  </div>
+</div>
+}
+
+<!-- settings specific -->
+@if (this.router.url.startsWith('/settings')) {
+<div class="nav-scroller bg-body shadow-sm mb-3">
+  <div class="container-xl">
+    <nav class="nav" aria-label="Secondary navigation">
+      <a
+        class="nav-link"
+        aria-current="page"
+        href="#"
+        routerLinkActive="active"
+        routerLink="/settings"
+        >{{ 'navbarsettingspersonal' | translate }}</a
+      >
+    </nav>
+  </div>
+</div>
+}
+
+<!-- admin specific -->
+@if (this.router.url.startsWith('/admin')) {
+<div class="nav-scroller bg-body shadow-sm mb-3">
+  <div class="container-xl">
+    <nav class="nav" aria-label="Secondary navigation">
+      <a
+        class="nav-link"
+        aria-current="page"
+        href="#"
+        routerLinkActive="active"
+        routerLink="/admin/users"
+        [routerLinkActiveOptions]="{ exact: true }"
+        ><i class="bi-people me-2"></i>{{ 'navbaradminusers' | translate }}</a
+      >
+      @if(this.router.url.startsWith('/admin/users/edit/')){
+      <a
+        class="nav-link"
+        aria-current="page"
+        href="#"
+        routerLinkActive="active"
+        [routerLink]="this.router.url"
+        ><i class="bi-person-vcard me-2"></i
+        >{{ 'navbaradmineditusers' | translate }}</a
+      >
+      }
+      <a
+        class="nav-link"
+        aria-current="page"
+        href="#"
+        routerLinkActive="active"
+        routerLink="/admin/view-applications"
+        [routerLinkActiveOptions]="{ exact: true }"
+        ><i class="bi-person-check me-2"></i
+        >{{ 'navbaradminapplications' | translate }}</a
+      >
+      <a
+        class="nav-link"
+        aria-current="page"
+        href="#"
+        routerLinkActive="active"
+        routerLink="/admin/excursion-add"
+        ><i class="bi-calendar-plus me-2"></i
+        >{{ 'navbaradminnewexcursion' | translate }}</a
+      >
+      @if(this.router.url.startsWith('/admin/excursion-edit/')){
+      <a
+        class="nav-link"
+        aria-current="page"
+        href="#"
+        routerLinkActive="active"
+        [routerLink]="this.router.url"
+        ><i class="bi-pencil-square me-2"></i
+        >{{ 'navbaradmineditexcursion' | translate }}</a
+      >
+      }
+    </nav>
+  </div>
+</div>
+}

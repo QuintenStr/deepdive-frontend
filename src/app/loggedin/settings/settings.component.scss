@@ -1,0 +1,21 @@
+.theme-selector {
+  display: flex;
+}
+
+.theme-option {
+  cursor: pointer;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.theme-option.selected {
+  border-color: blue;
+}
+
+.theme-option i {
+  margin-right: 5px;
+}

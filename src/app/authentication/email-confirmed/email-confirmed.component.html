@@ -1,0 +1,30 @@
+<div class="login-container">
+  <main class="form-signin w-100 m-auto">
+    <h1 class="h3 mb-3 fw-normal">
+      {{ 'registercompletewelcome' | translate }}
+    </h1>
+    <p>
+      {{ 'emailnotconfirmeddescription' | translate }}
+    </p>
+    <button
+      type="button"
+      class="btn btn-outline-secondary mb-3 w-100"
+      (click)="this.authService.logout()">
+      {{ 'navbarlogout' | translate }}
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-secondary mb-3 w-100"
+      (click)="resendEmail()">
+      {{ 'emailnotconfirmedresendmail' | translate }}
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-secondary w-100"
+      (click)="validateAgain()">
+      {{ 'registercompletecheckagain' | translate }}
+    </button>
+  </main>
+
+  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+</div>
